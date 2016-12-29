@@ -22,5 +22,6 @@ from tornado.ioloop import PollIOLoop
 
 
 class EPollIOLoop(PollIOLoop):
+	#select.epoll()=>epoll_create
     def initialize(self, **kwargs):
         super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)

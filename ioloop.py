@@ -718,16 +718,16 @@ class PollIOLoop(IOLoop):
         self._impl.close()
         self._callbacks = None
         self._timeouts = None
-
+    #注册事件
     def add_handler(self, fd, handler, events):
         fd, obj = self.split_fd(fd)
         self._handlers[fd] = (obj, stack_context.wrap(handler))
         self._impl.register(fd, events | self.ERROR)
-
+    #修改事件
     def update_handler(self, fd, events):
         fd, obj = self.split_fd(fd)
         self._impl.modify(fd, events | self.ERROR)
-
+    #移除事件
     def remove_handler(self, fd):
         fd, obj = self.split_fd(fd)
         self._handlers.pop(fd, None)

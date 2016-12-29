@@ -169,6 +169,16 @@ class HTTP1Connection(httputil.HTTPConnection):
                 except gen.TimeoutError:
                     self.close()
                     raise gen.Return(False)
+            #start_line:请求行
+                # GET / HTTP/1.1
+            #headers：请求头
+                # Accept-Language: zh-CN,zh;q=0.8
+                # Accept-Encoding: gzip, deflate, sdch
+                # Connection: keep-alive
+                # Accept: */*
+                # User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36
+                # Host: 10.0.0.121:8888
+                # Referer: http://10.0.0.121:8888/
             start_line, headers = self._parse_headers(header_data)
             if self.is_client:
                 start_line = httputil.parse_response_start_line(start_line)
@@ -215,6 +225,7 @@ class HTTP1Connection(httputil.HTTPConnection):
                         not self._write_finished):
                     self.stream.write(b"HTTP/1.1 100 (Continue)\r\n\r\n")
             if not skip_body:
+                #读取body内容
                 body_future = self._read_body(
                     start_line.code if self.is_client else 0, headers, delegate)
                 if body_future is not None:

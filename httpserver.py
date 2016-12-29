@@ -257,6 +257,7 @@ class _ServerRequestAdapter(httputil.HTTPMessageDelegate):
         self.request = None
         if isinstance(server.request_callback,
                       httputil.HTTPServerConnectionDelegate):
+            #此处server.request_callback-> web.Application
             self.delegate = server.request_callback.start_request(
                 server_conn, request_conn)
             self._chunks = None

@@ -1983,6 +1983,7 @@ class _RequestDispatcher(httputil.HTTPMessageDelegate):
         self.path_kwargs = {}
 
     def headers_received(self, start_line, headers):
+        #设置self.request
         self.set_request(httputil.HTTPServerRequest(
             connection=self.connection, start_line=start_line,
             headers=headers))

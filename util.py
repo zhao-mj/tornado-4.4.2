@@ -260,7 +260,8 @@ class Configurable(object):
     """
     __impl_class = None  # type: type
     __impl_kwargs = None  # type: Dict[str, Any]
-
+    #工厂方法创建对象
+    #改写初始化函数
     def __new__(cls, *args, **kwargs):
         base = cls.configurable_base()
         init_kwargs = {}
