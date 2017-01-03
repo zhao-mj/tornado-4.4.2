@@ -1439,6 +1439,7 @@ class RequestHandler(object):
                                     for (k, v) in kwargs.items())
             # If XSRF cookies are turned on, reject form submissions without
             # the proper cookie
+            #XSRF认证
             if self.request.method not in ("GET", "HEAD", "OPTIONS") and \
                     self.application.settings.get("xsrf_cookies"):
                 self.check_xsrf_cookie()
@@ -2008,6 +2009,7 @@ class _RequestDispatcher(httputil.HTTPMessageDelegate):
                                           app.default_host))
             return
         for spec in handlers:
+            #匹配路径,获取相应的处理RequestHandler类
             match = spec.regex.match(self.request.path)
             if match:
                 self.handler_class = spec.handler_class
@@ -2045,6 +2047,7 @@ class _RequestDispatcher(httputil.HTTPMessageDelegate):
         else:
             self.request.body = b''.join(self.chunks)
             self.request._parse_body()
+            #执行请求
             self.execute()
 
     def on_connection_close(self):
