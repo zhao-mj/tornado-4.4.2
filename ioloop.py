@@ -804,6 +804,7 @@ class PollIOLoop(IOLoop):
                 # Do not run anything until we have determined which ones
                 # are ready, so timeouts that call add_timeout cannot
                 # schedule anything in this iteration.
+                #获取最近的一个定时事件
                 due_timeouts = []
                 if self._timeouts:
                     now = self.time()
@@ -844,6 +845,7 @@ class PollIOLoop(IOLoop):
                     # If there are any timeouts, schedule the first one.
                     # Use self.time() instead of 'now' to account for time
                     # spent running callbacks.
+                    #获取最近的一个定时事件
                     poll_timeout = self._timeouts[0].deadline - self.time()
                     poll_timeout = max(0, min(poll_timeout, _POLL_TIMEOUT))
                 else:
@@ -912,11 +914,13 @@ class PollIOLoop(IOLoop):
     def time(self):
         return self.time_func()
 
+    #定义定时事件
     def call_at(self, deadline, callback, *args, **kwargs):
         timeout = _Timeout(
             deadline,
             functools.partial(stack_context.wrap(callback), *args, **kwargs),
             self)
+        #添加到堆
         heapq.heappush(self._timeouts, timeout)
         return timeout
 
